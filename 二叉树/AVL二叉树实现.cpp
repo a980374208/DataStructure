@@ -50,7 +50,7 @@ AVLTree Insert(AVLTree T,ElementType X){
 		T->Left = T->Right = NULL;
 	}else if(T->Data<X){
 		T->Left = Insert(T->Left,X);
-		if(abs(GetHeight(T->Left-GetHeight(T->Right))) == 2){
+		if(GetHeight(T->Left-GetHeight(T->Right)) == 2){
 			if(T->Left->Data>X){
 				singleLeftRotation(T);
 			}else{
@@ -59,7 +59,7 @@ AVLTree Insert(AVLTree T,ElementType X){
 		}
 	}else if(T->Data>X){
 		T->Right = Insert(T->Right,X);
-		if(abs(GetHeight(T->Left-GetHeight(T->Right))) == 2){
+		if(GetHeight(T->Left-GetHeight(T->Right)) == -2){
 			if(T->Right->Data>X){
 				singleRightRotation(T);
 			}else{
