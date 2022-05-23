@@ -145,6 +145,51 @@ LGraph BuildGraph()
     return Graph;
 }
 
+/*DFS(DepthFirstSearch)深度优先遍历*/
+ 
+ void Visit(Vertex V){
+ 	printf("正在访问顶点V");
+ }
+ 
+ void DFS(LGraph G,Vertex V,void (*Visit)(Vertex)/*函数指针C语言回调函数主要使用*/){
+ 	Visit(V);
+ 	Visited[V] = true;/*Visited[]为所有顶点集合在外部已经初始化为false此为标记V已访问 */
+ 	for(PtrToAdjVNode W = G->LG.FirstEdge;!W;W = W->NextAdjVNode){
+ 		if(!Visited[W->AdjV]){
+ 			DFS(G,W->AdjV,Vertex);
+		 }
+	}
+ }
+ 
+ /*BFS(BreadthFirstSearch)广度优先遍历**/
+ 
+ /* IsEdge(Graph, V, W)检查<V, W>是否图Graph中的一条边，即W是否V的邻接点。  */
+/* 此函数根据图的不同类型要做不同的实现，关键取决于对不存在的边的表示方法。*/
+/* 例如对有权图, 如果不存在的边被初始化为INFINITY, 则函数实现如下:         */
+ void IsEdge(Graph G,Vertex V,Vertex W){
+ 	return G->Weight[V][W] < INFINITY? true:false; 
+ }
+ 
+ void BFS(Graph G,Vertex S,void (*Visit)(Vertex)){
+ 	Queue Q;
+ 	Vertex V,W;
+ 	Q = CreateQueue(MAXSIZE);
+ 	Visit(S);
+ 	Visited[S] = true; 
+ 	AddQ(Q,S);
+ 	while(!IsEmpty(Q)){
+ 		V = DeleteQ(Q);
+ 		for(W = 0;W<G->Nv;++W){
+ 		    if(!(Visited[W])&&IsEdge(G,V,W)){
+ 		    	Visit(W);
+ 		    	Visited[W] = true;
+ 		    	AddQ(Q,W);
+			 }
+	    }
+	}
+ }
+ 
+ 
 
 
 
