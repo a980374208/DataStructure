@@ -190,6 +190,31 @@ LGraph BuildGraph()
  }
  
  
+ 
+/* 邻接表存储 - 无权图的单源最短路算法 */
+
+/* dist[]和path[]全部初始化为-1 */
+void Unweighted ( LGraph G, int dist[], int path[], Vertex S )
+{
+	Queue Q;
+	Vertex V;
+	dist[S] = 0;
+	Q = CreateQueue(G->Nv);
+	AddQ(Q,S);
+	PtrToAdjVNode W;
+	while(!IsEmpty(Q)){
+		V = DeleteQ(Q);
+		for(W = G->LG[V].FirstEdge;W;W = W->NextAdjVNode){
+		    if(dist[W->AdjV] == -1){
+			    dist[W->AdjV] = dist[V]+1; 
+			    path[W->AdjV] = V;
+			    AddQ(Q,W->AdjV);
+		    }
+	    } 
+	}
+}
+
+/*时间复杂度O(V+E)，V=顶点，E=边*/
 
 
 
