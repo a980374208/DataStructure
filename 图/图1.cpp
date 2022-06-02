@@ -213,11 +213,66 @@ void Unweighted ( LGraph G, int dist[], int path[], Vertex S )
 	    } 
 	}
 }
-
 /*时间复杂度O(V+E)，V=顶点，E=边*/
 
 
+/* 邻接矩阵存储 - 有权图的单源最短路算法 */
+#define ERROR nullptr
+Vertex FindMinDist( Graph G, int dist[], int collected[] ){
+	Vertex MinV,V;
+	int MinDist = INFINITY;
+	for(V = 0;V<G->Nv;++v){
+		if(collected[V] == false&&dist[V]<MinDist){
+			MinDist = dist[v];
+			MinV = V;
+		}
+	}
+	
+	if(MinDist<INFINITY){
+		return MinV;
+	}else{
+		return ERROR;
+	} 
+}
+/*dist[]容量大小为顶点数，初始化为INFINITY
+  path[]量大小为顶点数*/
+bool Dijkstra( Graph G, int dist[], int path[], Vertex S)
+{
+	int collected[MaxVertexNum];
+	Vertex V,W;
+	for(V = 0;V<G->Nv;++V){
+		dist[V] = G->Weight[S][V]<INFINITY;
+		if(dist[v]<INFINITY){
+			path[V] = S;
+		}esle{
+		    path[V] = -1;
+		}
+		collected[V] = false;
+	}
+	dist[S] = 0;
+	collected[S] = true;
+	
+	while(1){
+		V = FindMinDist(G,dist,collected);
+		if(V == ERROR){
+			break;
+		}
+		collected[V] = true;
+		for(W = 0;W<G->Nv;++W){
+			if(collected[W] == false&&G->Nv[V][W]<INFINITY){
+				if(G->Nv[V][W]<0){
+					return false;
+				}
+				if(dist[V]+G->Weight[V][W]<dist[W]){
+					dist[W] = dist[V]+G->Weight[V][W];
+					path[W] = v;
+				}
+			}
+		}
+	}
+	return true;
+}
 
-
+/*时间复杂度O(|V|log|V|+|E|log|E|) = O(|E|log|V|)，V=顶点，E=边*/
 
 
